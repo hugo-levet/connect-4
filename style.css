@@ -1,0 +1,86 @@
+:root {
+  --cell-size: 14svh;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+  margin: 0;
+}
+
+.grid {
+  display: flex;
+}
+
+.col {
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  cursor: pointer;
+}
+
+.cell {
+  background-color: #275eb4;
+  height: var(--cell-size);
+  width: var(--cell-size);
+  position: relative;
+}
+
+.cell::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  background-color: white;
+  border-radius: 999px;
+}
+
+.cell.filled.player-1::after {
+  background-color: #f4da10;
+  border: calc(var(--cell-size) / 20) dashed #fff07e;
+}
+
+.cell.filled.player-2::after {
+  background-color: #be2426;
+  border: calc(var(--cell-size) / 20) dashed #e93e41;
+}
+
+.col:hover .cell:last-child::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--cell-size) * -0.5);
+  left: 50%;
+  translate: -50%;
+  z-index: 1;
+  border-top: calc(var(--cell-size) / 3) solid tomato;
+  border-right: calc(var(--cell-size) / 4) solid transparent;
+  border-left: calc(var(--cell-size) / 4) solid transparent;
+}
+
+.col:hover .cell:not(.filled)::after {
+  outline: calc(var(--cell-size) / 20) dashed #a2c8fd;
+  outline-offset: calc(var(--cell-size) / -20);
+}
+
+.grid[player-turn="1"] .col:hover .cell:not(.filled)::after {
+  outline-color: #f4da10;
+}
+
+.grid[player-turn="2"] .col:hover .cell:not(.filled)::after {
+  outline-color: #e93e41;
+}
+
+.cell:not(.filled) ~ .cell:not(.filled)::after {
+  outline: unset;
+}
+
+@media (orientation: portrait) {
+  :root {
+    --cell-size: 14svw;
+  }
+
+  .grid {
+    rotate: 90deg;
+  }
+}
